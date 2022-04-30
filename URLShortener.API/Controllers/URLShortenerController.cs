@@ -104,15 +104,16 @@ namespace URLShortener.API.Controllers
             }
         }
 
-        [HttpPut(Name ="UpdateVisits")]
-        public async Task<ActionResult> UpdateVisits(URL url)
+        [HttpPost]
+        [Route("/UpdateVisits/{short_code?}")]
+        public async Task<ActionResult> UpdateVisits([FromRoute] string short_code)
         {
             try
             {
                 // Find URL by id
-                URL _url = await _context.URL.FirstAsync(x => x.UrlID == url.UrlID);
-                if (url == null)
-                    BadRequest("URL not found.");
+                URL _url = await _context.URL.FirstAsync(x => x.ShortCode == short_code);
+                if (_url == null)
+                    return BadRequest("URL not found.");
 
                 // Increate visits count
                 _url.Visits += 1;

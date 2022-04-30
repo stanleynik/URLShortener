@@ -63,6 +63,19 @@ export class UrlShortenerService {
 
   }
 
+  updateVisit(short_code: string): Observable<any> {
+    var result: any;
+    try {
+      var url = "https://localhost:7091/UpdateVisits/" + short_code;
+      result = this.http.post(url, null);
+    } catch (e) {
+      
+    }
+    return result;
+
+  }
+
+
   private handleError(err: HttpErrorResponse): Observable<never> {
     // in a real world app, we may send the server to some remote logging infrastructure
     // instead of just logging it to the console
