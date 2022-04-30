@@ -4,8 +4,7 @@ import { UrlShortenerService } from '../services/url-shortener.service';
 
 @Component({
   selector: 'app-redirect-component',
-  templateUrl: './redirect.component.html',
-  styleUrls: ['./redirect.component.css']
+  template: ''
 })
 export class RedirectComponent implements OnInit {
 

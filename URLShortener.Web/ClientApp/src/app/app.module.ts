@@ -8,9 +8,9 @@ import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
-import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { UrlShortenerComponent } from './url-shortener/url-shortener.component';
 import { RedirectComponent } from './redirect-component/redirect.component';
+import { Top20Component } from './top-20/top-20.component';
 
 @NgModule({
   declarations: [
@@ -18,8 +18,7 @@ import { RedirectComponent } from './redirect-component/redirect.component';
     NavMenuComponent,
     HomeComponent,
     UrlShortenerComponent,
-    CounterComponent,
-    FetchDataComponent
+    Top20Component
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -28,9 +27,9 @@ import { RedirectComponent } from './redirect-component/redirect.component';
     ReactiveFormsModule,
     RouterModule.forRoot([
       { path: "", component: HomeComponent, pathMatch: "full" },
+      { path: 'top-20', component: Top20Component, pathMatch: "full" },
+      // Order cares 
       { path: ':shortCode', component: RedirectComponent},
-      { path: 'counter', component: CounterComponent },
-      { path: 'fetch-data', component: FetchDataComponent },
     ], { enableTracing: false })
   ],
   providers: [],

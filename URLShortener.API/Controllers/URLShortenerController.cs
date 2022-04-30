@@ -57,6 +57,25 @@ namespace URLShortener.API.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("/GetTop20")]
+        public async Task<ActionResult<URL[]>> GetTop20()
+        {
+            try
+            {
+                URL[] urls = await _context.URL.OrderByDescending(x => x.Visits).Take(20).ToArrayAsync();
+                if (urls == null)
+                    return BadRequest("URL not found.");
+
+                return urls;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                return BadRequest();
+            }
+        }
+
         [HttpPost]
         public async Task<ActionResult<string>> AddURL([FromBody]string url)
         {

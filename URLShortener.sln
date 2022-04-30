@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "URLShortener.DataAccess", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "URLShortener.API", "URLShortener.API\URLShortener.API.csproj", "{6DE53378-A637-411B-BB28-0C09491D5EE8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "URLShortener.Web", "URLShortener.Web\URLShortener.Web.csproj", "{7D395E83-6647-41B9-A26C-C008C23A3576}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "URLShortener.Web", "URLShortener.Web\URLShortener.Web.csproj", "{7D395E83-6647-41B9-A26C-C008C23A3576}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

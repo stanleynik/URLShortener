@@ -1,0 +1,23 @@
+<h1 id="tableLabel">Top 20</h1>
+
+ 
+<p *ngIf="!urls"><em>Loading...</em></p>
+
+<table class='table table-striped' aria-labelledby="tableLabel" >
+  <thead>
+    <tr>
+      <th>Provided URL</th>
+      <th>Short URL</th>
+      <th>Visits</th>
+      <th>Creation Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let url of urls">
+      <td>{{ url.providedURL }}</td>
+      <td>{{ url.shortURL }}</td>
+      <td>{{ url.visits }}</td>
+      <td>{{ url.creationDate }}</td>
+    </tr>
+  </tbody>
+</table>
