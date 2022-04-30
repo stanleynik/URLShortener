@@ -38,7 +38,7 @@ namespace URLShortener.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddURL(string url)
+        public async Task<ActionResult<string>> AddURL([FromBody]string url)
         {
             try
             {
@@ -56,7 +56,7 @@ namespace URLShortener.API.Controllers
                 };
                 _context.URL.Add(_url);
                 await _context.SaveChangesAsync();
-                return Ok();            
+                return short_url;            
             }
             catch (Exception ex)
             {
