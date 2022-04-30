@@ -10,6 +10,7 @@ import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { UrlShortenerComponent } from './url-shortener/url-shortener.component';
+import { RedirectComponent } from './redirect-component/redirect.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,16 @@ import { UrlShortenerComponent } from './url-shortener/url-shortener.component';
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
+      {
+        path: '', component: HomeComponent, pathMatch: 'full',
+        children: [
+          {
+            path: ':shortCode',
+            component: RedirectComponent,
+          }
+        ]
+      },
+      { path: ':shortCode', component: RedirectComponent },
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
     ])

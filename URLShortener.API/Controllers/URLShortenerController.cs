@@ -23,7 +23,7 @@ namespace URLShortener.API.Controllers
             _logger = logger;
         }
 
-        [HttpGet(Name = "GetURLShortener")]
+        [HttpGet]
         public async Task<ActionResult<List<URL>>> Get()
         {
             try
@@ -35,6 +35,26 @@ namespace URLShortener.API.Controllers
                 Console.WriteLine(ex.ToString());
                 return BadRequest();
             } 
+        }
+
+
+        [HttpGet]
+        [Route("/GetProvidedURL/{short_url?}")]
+        public async Task<ActionResult<string>> GetProvidedURL([FromRoute] string short_url)
+        {
+            try
+            {
+                URL url = await _context.URL.FirstAsync(x => x.ShortURL == short_url);
+                if (url == null)
+                    return BadRequest("URL not found.");
+
+                return url.ProvidedURL;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                return BadRequest();
+            }
         }
 
         [HttpPost]

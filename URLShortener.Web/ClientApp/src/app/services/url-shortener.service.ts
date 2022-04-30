@@ -38,4 +38,19 @@ export class UrlShortenerService {
   
   }
 
+  getProvidedURL(ShortURL: string): Observable<any> {
+    var result: any;
+    try {
+
+      const httpOptions: Object = {
+        responseType: 'text'
+      };
+
+      result = this.http.get(this.api_url + "?shortURL="+ShortURL, httpOptions);
+    } catch (e) {
+      alert(e);
+    }
+    return result;
+  }
+
 }

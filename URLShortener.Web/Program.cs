@@ -22,6 +22,12 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller}/{action=Index}/{id?}");
 
+
+app.MapControllerRoute(
+    name: "redirect",
+    pattern: "{controller}/{action=Index}/{short_code?}");
+
+
 app.MapFallbackToFile("index.html"); ;
 
 app.Run();
