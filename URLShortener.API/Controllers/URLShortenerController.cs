@@ -39,12 +39,12 @@ namespace URLShortener.API.Controllers
 
 
         [HttpGet]
-        [Route("/GetProvidedURL/{short_url?}")]
-        public async Task<ActionResult<string>> GetProvidedURL([FromRoute] string short_url)
+        [Route("/GetProvidedURL/{short_code?}")]
+        public async Task<ActionResult<string>> GetProvidedURL([FromRoute] string short_code)
         {
             try
             {
-                URL url = await _context.URL.FirstAsync(x => x.ShortURL == short_url);
+                URL url = await _context.URL.FirstAsync(x => x.ShortCode == short_code);
                 if (url == null)
                     return BadRequest("URL not found.");
 

@@ -11,8 +11,8 @@ export class RedirectComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private urlShortenerService: UrlShortenerService) {
     this.route.params.subscribe((params) => {
-      alert(params);
-      this.urlShortenerService.getProvidedURL(params[0]).subscribe({
+      console.log(params);
+      this.urlShortenerService.getProvidedURL(params['shortCode']).subscribe({
         next: result => {
           window.location.href = result;
         },

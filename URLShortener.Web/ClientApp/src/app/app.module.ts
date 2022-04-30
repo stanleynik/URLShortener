@@ -27,19 +27,11 @@ import { RedirectComponent } from './redirect-component/redirect.component';
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forRoot([
-      {
-        path: '', component: HomeComponent, pathMatch: 'full',
-        children: [
-          {
-            path: ':shortCode',
-            component: RedirectComponent,
-          }
-        ]
-      },
-      { path: ':shortCode', component: RedirectComponent },
+      { path: "", component: HomeComponent, pathMatch: "full" },
+      { path: ':shortCode', component: RedirectComponent},
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
-    ])
+    ], { enableTracing: false })
   ],
   providers: [],
   bootstrap: [AppComponent]
