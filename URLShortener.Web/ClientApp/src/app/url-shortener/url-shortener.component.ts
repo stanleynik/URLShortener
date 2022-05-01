@@ -30,7 +30,13 @@ export class UrlShortenerComponent implements OnInit {
 
   createForm() {
     // Regex to validate URL
-    const reg = '(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?';
+    // https://mathiasbynens.be/demo/url-regex
+    const reg = new RegExp('^(https?:\\/\\/)?'+ // protocol
+    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+      '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+      '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+      '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+      '(\\#[-a-z\\d_]*)?$', 'i');  // fragment locator
     // Create form
     this.form = this.fb.group({
       url: ['', [Validators.required, Validators.pattern(reg)]],

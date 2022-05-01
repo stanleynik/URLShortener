@@ -11,6 +11,7 @@ import { CounterComponent } from './counter/counter.component';
 import { UrlShortenerComponent } from './url-shortener/url-shortener.component';
 import { RedirectComponent } from './redirect-component/redirect.component';
 import { Top20Component } from './top-20/top-20.component';
+import { RedirectService } from './services/redirect.service';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,7 @@ import { Top20Component } from './top-20/top-20.component';
       { path: "", component: HomeComponent, pathMatch: "full" },
       { path: 'top-20', component: Top20Component, pathMatch: "full" },
       // Order cares 
-      { path: ':shortCode', component: RedirectComponent},
+      { path: ':shortCode', canActivate: [RedirectService], children: [] },
     ], { enableTracing: false })
   ],
   providers: [],

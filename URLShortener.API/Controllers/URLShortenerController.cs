@@ -4,6 +4,7 @@ using URLShortener.DataAccess;
 using URLShortener.API;
 using URLShortener.DataAccess.Models;
 
+
 namespace URLShortener.API.Controllers
 {
     [ApiController]
@@ -24,11 +25,11 @@ namespace URLShortener.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<URL>>> Get()
+        public async Task<ActionResult<URL[]>> Get()
         {
             try
             {
-                return Ok(await _context.URL.ToListAsync());
+                return Ok(await _context.URL.ToArrayAsync());
             }
             catch (Exception ex)
             {
@@ -81,6 +82,14 @@ namespace URLShortener.API.Controllers
         {
             try
             {
+                // Validate URL
+                Uri? uriResult;
+                bool result = Uri.TryCreate(url, UriKind.Absolute, out uriResult)
+                && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
+
+                if (result == false)
+                    return BadRequest("URL is invalid");
+
                 string short_code = Util.GetShortCode();
         
                 // Get the setting value of URLShortenerWebURL.
