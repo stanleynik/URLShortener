@@ -19,11 +19,12 @@ namespace URLShortener.API.Security
 			this.scopeFactory = scopeFactory;
 		}
 		public SessionToken Authenticate(User user) {
+			User? current_user;
 			using (var scope = scopeFactory.CreateScope())
 			{
 				var _context = scope.ServiceProvider.GetRequiredService<URLShortenerContext>();
 				// Validate User
-				var current_user = _context.User.FirstOrDefault(x => x.Username == user.Username && x.Password == user.Password);
+				current_user = _context.User.FirstOrDefault(x => x.Username == user.Username && x.Password == user.Password);
 				if (current_user == null)
 					return null;
 
@@ -46,10 +47,10 @@ namespace URLShortener.API.Security
 			var sessionToken = new SessionToken
 			{
 				Token = tokenHandler.WriteToken(token),
-				User = user
+				User = current_user
 			};
 
-			return new SessionToken { Token = tokenHandler.WriteToken(token) };
+			return sessionToken;
 
 		}
 	}

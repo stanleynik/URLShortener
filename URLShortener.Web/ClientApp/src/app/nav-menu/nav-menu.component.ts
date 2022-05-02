@@ -9,8 +9,15 @@ import { TokenStorageService } from '../services/token-storage.service';
 export class NavMenuComponent {
   isExpanded = false;
 
-  constructor(private tokenStorageService: TokenStorageService) { }
+  constructor(private tokenStorageService: TokenStorageService) {
 
+  }
+
+  getUsername() {
+    if (this.tokenStorageService.getToken()) {
+      return this.tokenStorageService.getUser().username;
+    }
+  }
   collapse() {
     this.isExpanded = false;
   }
