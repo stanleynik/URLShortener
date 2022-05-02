@@ -16,3 +16,17 @@ html {
 .box-shadow {
   box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
 }
+
+.logout-button {
+  cursor: pointer;
+  width: 1.5vw;
+  height: 1.5vw;
+  position: absolute;
+  top: 50%;
+  right: 5vw;
+  transform: translateY(-50%);
+}
+
+  .logout-button:hover {
+    opacity: .75;
+  }

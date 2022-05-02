@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { TokenStorageService } from './services/token-storage.service';
 
 @Component({
   selector: 'app-root',
@@ -6,4 +7,12 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'app';
+
+
+  constructor(private tokenStorageService:TokenStorageService) { }
+
+  isLoggedIn() {
+    return this.tokenStorageService.isLoggedIn();
+  }
+
 }

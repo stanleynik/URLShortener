@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { ActivatedRouteSnapshot, CanActivate } from "@angular/router";
+import { ActivatedRouteSnapshot, CanActivate, Router } from "@angular/router";
 import { Observable } from "rxjs";
 import { UrlShortenerService } from "./url-shortener.service";
 
@@ -8,7 +8,7 @@ import { UrlShortenerService } from "./url-shortener.service";
 })
 export class RedirectService implements CanActivate {
 
-  constructor(private urlShortenerService: UrlShortenerService) { }
+  constructor(private router:Router, private urlShortenerService: UrlShortenerService) { }
 
   canActivate(route: ActivatedRouteSnapshot): Observable<boolean> | Promise<boolean>  {
    
@@ -32,6 +32,7 @@ export class RedirectService implements CanActivate {
           resolve(true);
         },
         error: err => {
+          this.router.navigate(['/']);
           resolve(false);
         }
       });

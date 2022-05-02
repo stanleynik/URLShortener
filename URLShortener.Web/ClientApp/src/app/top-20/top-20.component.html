@@ -17,7 +17,7 @@
       <td>{{ url.providedURL }}</td>
       <td>{{ url.shortURL }}</td>
       <td>{{ url.visits }}</td>
-      <td>{{ url.creationDate }}</td>
+      <td>{{ url.creationDate | date:'short' }}</td>
     </tr>
   </tbody>
 </table>
