@@ -20,14 +20,21 @@ namespace URLShortener.API.Controllers
 		[Route("authenticate")]
 		public IActionResult Authenticate([FromBody]User user)
 		{
-			var token = _jWTManager.Authenticate(user);
+            try
+            {
+				var token = _jWTManager.Authenticate(user);
 
-			if (token == null)
-			{
-				return Unauthorized();
+				if (token == null)
+					return Unauthorized();
+
+				return Ok(token);
 			}
-
-			return Ok(token);
+			catch (Exception ex)
+            {
+				Console.WriteLine(ex.ToString());
+				return StatusCode(500);
+			}
+	
 		}
 	}
 }

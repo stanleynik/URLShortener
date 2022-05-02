@@ -20,6 +20,7 @@ namespace URLShortener.API.Security
 		}
 		public SessionToken Authenticate(User user) {
 			User? current_user;
+
 			using (var scope = scopeFactory.CreateScope())
 			{
 				var _context = scope.ServiceProvider.GetRequiredService<URLShortenerContext>();
@@ -30,7 +31,6 @@ namespace URLShortener.API.Security
 
 			}
 		
-	 
 			// Else we generate JSON Web Token
 			var tokenHandler = new JwtSecurityTokenHandler();
 			var tokenKey = Encoding.UTF8.GetBytes(Configuration["JWT:Key"]);
@@ -49,6 +49,7 @@ namespace URLShortener.API.Security
 				Token = tokenHandler.WriteToken(token),
 				User = current_user
 			};
+			//#TODO: Save the session token
 
 			return sessionToken;
 

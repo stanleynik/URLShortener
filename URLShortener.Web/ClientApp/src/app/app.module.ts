@@ -8,9 +8,9 @@ import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { UrlShortenerComponent } from './url-shortener/url-shortener.component';
 import { Top20Component } from './top-20/top-20.component';
-import { RedirectService } from './services/redirect.service';
-import { authInterceptorProviders } from './interceptors/auth-interceptor';
-import { AuthGuard } from './auth.guard';
+import { RedirectService } from './core/services/redirect.service';
+import { authInterceptorProviders } from './core/interceptors/auth-interceptor';
+import { AuthGuard } from './core/guards/auth.guard';
 import { LoginComponent } from './login/login.component';
 
 @NgModule({

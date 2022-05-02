@@ -1,8 +1,8 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from "rxjs";
-import { catchError, tap } from 'rxjs/operators';
-import { IUrl } from '../url';
+import { catchError } from 'rxjs/operators';
+import { IUrl } from '../../shared/models/url';
  
 export interface Response {
   status: number,

@@ -1,7 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using URLShortener.DataAccess;
-using URLShortener.API;
 using URLShortener.DataAccess.Models;
 using Microsoft.AspNetCore.Authorization;
 
@@ -14,14 +12,11 @@ namespace URLShortener.API.Controllers
 
         private URLShortenerContext _context;
         private IConfiguration _configuration;
-        private readonly ILogger<URLShortenerController> _logger;
-        
-        
-        public URLShortenerController(URLShortenerContext context, IConfiguration configuration, ILogger<URLShortenerController> logger)
+ 
+        public URLShortenerController(URLShortenerContext context, IConfiguration configuration)
         {
             _context = context;
             _configuration = configuration;
-            _logger = logger;
         }
 
         [Authorize]
@@ -35,7 +30,7 @@ namespace URLShortener.API.Controllers
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
-                return BadRequest();
+                return StatusCode(500);
             } 
         }
 
@@ -48,14 +43,14 @@ namespace URLShortener.API.Controllers
             {
                 URL url = await _context.URL.FirstAsync(x => x.ShortCode == short_code);
                 if (url == null)
-                    return BadRequest("URL not found.");
+                    return BadRequest("URL not found");
 
                 return url.ProvidedURL;
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
-                return BadRequest();
+                return StatusCode(500);
             }
         }
 
@@ -67,15 +62,12 @@ namespace URLShortener.API.Controllers
             try
             {
                 URL[] urls = await _context.URL.OrderByDescending(x => x.Visits).Take(20).ToArrayAsync();
-                if (urls == null)
-                    return BadRequest("URL not found.");
-
                 return urls;
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
-                return BadRequest();
+                return StatusCode(500);
             }
         }
 
@@ -97,7 +89,7 @@ namespace URLShortener.API.Controllers
         
                 // Get the setting value of URLShortenerWebURL.
                 string web_url = _configuration.GetValue<string>("URLShortenerWebURL");
-                // Contact the generated short code.
+                // Concat the generated short code.
                 string short_url = web_url + short_code;
                 URL _url = new URL
                 {
@@ -112,7 +104,7 @@ namespace URLShortener.API.Controllers
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
-                return BadRequest();
+                return StatusCode(500);
             }
         }
 
@@ -123,10 +115,10 @@ namespace URLShortener.API.Controllers
         {
             try
             {
-                // Find URL by id
+                // Find URL by short_code
                 URL _url = await _context.URL.FirstAsync(x => x.ShortCode == short_code);
                 if (_url == null)
-                    return BadRequest("URL not found.");
+                    return BadRequest("URL not found");
 
                 // Increate visits count
                 _url.Visits += 1;
@@ -136,7 +128,7 @@ namespace URLShortener.API.Controllers
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
-                return BadRequest();
+                return StatusCode(500);
             }
         }
 

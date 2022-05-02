@@ -51,6 +51,7 @@ builder.Services.AddCors(options => {
                         .AllowAnyMethod());
 });
 
+// Add authentication scheme to Swagger 
 builder.Services.AddSwaggerGen(options =>
 {
     options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
@@ -87,12 +88,12 @@ if (app.Environment.IsDevelopment())
 {  
     app.UseSwagger();
     app.UseSwaggerUI();
-  
+
+    app.UseCors("AllowAll");
 }
 
 app.UseHttpsRedirection();
-app.UseCors("AllowAll");
-
+ 
 app.UseAuthentication();
 app.UseAuthorization();
 

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { UrlShortenerService } from '../services/url-shortener.service';
+import { UrlShortenerService } from '../core/services/url-shortener.service';
 
 @Component({
   selector: 'app-url-shortener',

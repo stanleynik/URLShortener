@@ -1,9 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
-import { UrlShortenerService } from '../services/url-shortener.service';
-import { IUrl } from '../url';
+import { Subscription } from 'rxjs';
+import { UrlShortenerService } from '../core/services/url-shortener.service';
+import { IUrl } from '../shared/models/url';
  
-
 @Component({
   selector: 'app-top-20',
   templateUrl: './top-20.component.html'
