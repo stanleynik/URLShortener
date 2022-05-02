@@ -15,7 +15,7 @@
   <tbody>
     <tr *ngFor="let url of urls">
       <td>{{ url.providedURL }}</td>
-      <td>{{ url.shortURL }}</td>
+      <td><a target="_blank" href="{{ url.shortURL }}">{{ url.shortURL }}</a></td>
       <td>{{ url.visits }}</td>
       <td>{{ url.creationDate | date:'short' }}</td>
     </tr>
