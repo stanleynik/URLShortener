@@ -18,6 +18,5 @@ namespace URLShortener.DataAccess.Models
         public DateTime? LastVisit { get; set; }
 
 
-
     }
 }

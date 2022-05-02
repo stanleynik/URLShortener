@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using URLShortener.DataAccess;
 using URLShortener.API;
 using URLShortener.DataAccess.Models;
-
+using Microsoft.AspNetCore.Authorization;
 
 namespace URLShortener.API.Controllers
 {
@@ -24,6 +24,7 @@ namespace URLShortener.API.Controllers
             _logger = logger;
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<URL[]>> Get()
         {
@@ -38,7 +39,7 @@ namespace URLShortener.API.Controllers
             } 
         }
 
-
+        [AllowAnonymous]
         [HttpGet]
         [Route("/GetProvidedURL/{short_code?}")]
         public async Task<ActionResult<string>> GetProvidedURL([FromRoute] string short_code)
@@ -58,6 +59,7 @@ namespace URLShortener.API.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet]
         [Route("/GetTop20")]
         public async Task<ActionResult<URL[]>> GetTop20()
@@ -77,6 +79,7 @@ namespace URLShortener.API.Controllers
             }
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<string>> AddURL([FromBody]string url)
         {
@@ -113,6 +116,7 @@ namespace URLShortener.API.Controllers
             }
         }
 
+        [Authorize]
         [HttpPost]
         [Route("/UpdateVisits/{short_code?}")]
         public async Task<ActionResult> UpdateVisits([FromRoute] string short_code)

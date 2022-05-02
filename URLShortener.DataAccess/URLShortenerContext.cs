@@ -18,8 +18,7 @@ namespace URLShortener.DataAccess
 
         public DbSet<User> User { get; set; }
         public DbSet<URL> URL { get; set; }
-
-   
+        public DbSet<SessionToken> SessionToken { get; set; }
 
     }
 }
