@@ -2,6 +2,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from "rxjs";
 import { catchError } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
 import { IUrl } from '../../shared/models/url';
  
 export interface Response {
@@ -14,7 +15,7 @@ export interface Response {
 })
 export class UrlShortenerService {
  
-  api_url = "https://localhost:7091/URLShortener";
+
   constructor(private http: HttpClient) { }
 
   addURL(URL: string): Observable<any> {
@@ -30,7 +31,7 @@ export class UrlShortenerService {
         responseType: 'text'
       };
   
-      result = this.http.post(this.api_url, JSON.stringify(URL), httpOptions);
+      result = this.http.post(environment.apiUrl + "/URLShortener", JSON.stringify(URL), httpOptions);
     } catch (e) {
       alert(e);
     }
@@ -47,7 +48,7 @@ export class UrlShortenerService {
         responseType: 'text'
       };
  
-      result = this.http.get("https://localhost:7091/GetProvidedURL/" + ShortCode, httpOptions);
+      result = this.http.get(environment.apiUrl + "/GetProvidedURL/" + ShortCode, httpOptions);
     } catch (e) {
       alert(e);
     }
@@ -71,7 +72,7 @@ export class UrlShortenerService {
           'Content-Type': 'application/json'
         })
       };
-      var url = "https://localhost:7091/UpdateVisits/" + short_code;
+      var url = environment.apiUrl + "/UpdateVisits/" + short_code;
       result = this.http.post(url, httpOptions);
     } catch (e) {
       
