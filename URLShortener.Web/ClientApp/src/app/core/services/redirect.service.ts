@@ -19,17 +19,18 @@ export class RedirectService implements CanActivate {
 
       this.urlShortenerService.getProvidedURL(route.params['shortCode']).subscribe({
         next: result => {
+          var provided_url = result;
           // Record visit
           this.urlShortenerService.updateVisit(route.params['shortCode']).subscribe({
             next: result => {
-
+              // Redirect to providedURL
+              window.location.href = provided_url;
+              resolve(true);
             },
             error: err => alert(err.message)
           });
 
-          // Redirect to providedURL
-          window.location.href = result;
-          resolve(true);
+         
         },
         error: err => {
           this.router.navigate(['/']);

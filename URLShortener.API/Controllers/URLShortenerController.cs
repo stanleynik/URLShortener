@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using URLShortener.DataAccess.Models;
 using Microsoft.AspNetCore.Authorization;
+using URLShortener.API.Services;
 
 namespace URLShortener.API.Controllers
 {
@@ -11,11 +12,13 @@ namespace URLShortener.API.Controllers
     {
 
         private URLShortenerContext _context;
+        private readonly IURLShortenerService _service;
         private IConfiguration _configuration;
  
-        public URLShortenerController(URLShortenerContext context, IConfiguration configuration)
+        public URLShortenerController(URLShortenerContext context, IURLShortenerService service, IConfiguration configuration)
         {
             _context = context;
+            _service = service;
             _configuration = configuration;
         }
 
@@ -25,7 +28,7 @@ namespace URLShortener.API.Controllers
         {
             try
             {
-                return Ok(await _context.URL.ToArrayAsync());
+                return Ok(await _service.GetAll());
             }
             catch (Exception ex)
             {
@@ -41,7 +44,7 @@ namespace URLShortener.API.Controllers
         {
             try
             {
-                URL url = await _context.URL.FirstAsync(x => x.ShortCode == short_code);
+                URL url = await _service.GetProvidedURL(short_code);
                 if (url == null)
                     return BadRequest("URL not found");
 
@@ -61,7 +64,7 @@ namespace URLShortener.API.Controllers
         {
             try
             {
-                URL[] urls = await _context.URL.OrderByDescending(x => x.Visits).Take(20).ToArrayAsync();
+                URL[] urls = await _service.GetTop20();
                 return urls;
             }
             catch (Exception ex)
@@ -77,32 +80,13 @@ namespace URLShortener.API.Controllers
         {
             try
             {
-                // Validate URL
-                Uri? uriResult;
-                bool result = Uri.TryCreate(url, UriKind.Absolute, out uriResult)
-                && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
-
-                if (result == false)
-                    return BadRequest("URL is invalid");
-
-                string short_code = Util.GetShortCode();
-        
-                // Get the setting value of URLShortenerWebURL.
-                string web_url = _configuration.GetValue<string>("URLShortenerWebURL");
-                // Concat the generated short code.
-                string short_url = web_url + short_code;
-                URL _url = new URL
-                {
-                    ProvidedURL = url,
-                    ShortURL = short_url,
-                    ShortCode = short_code
-                };
-                _context.URL.Add(_url);
-                await _context.SaveChangesAsync();
-                return short_url;            
+                return await _service.AddUrl(url);          
             }
             catch (Exception ex)
             {
+                if(ex.Message == "URL is invalid")
+                    return BadRequest(ex.ToString());
+
                 Console.WriteLine(ex.ToString());
                 return StatusCode(500);
             }
@@ -115,14 +99,8 @@ namespace URLShortener.API.Controllers
         {
             try
             {
-                // Find URL by short_code
-                URL _url = await _context.URL.FirstAsync(x => x.ShortCode == short_code);
-                if (_url == null)
-                    return BadRequest("URL not found");
-
-                // Increate visits count
-                _url.Visits += 1;
-                await _context.SaveChangesAsync();
+                bool result = await _service.UpdateVisits(short_code);
+               
                 return Ok();
             }
             catch (Exception ex)

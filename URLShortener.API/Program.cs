@@ -5,11 +5,13 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using URLShortener.API.Security;
+using URLShortener.API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+builder.Services.AddScoped<IURLShortenerService, URLShortenerService>();
 // Add authentication middleware
 builder.Services.AddAuthentication(x =>
 {
@@ -39,6 +41,7 @@ builder.Services.AddDbContext<URLShortenerContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

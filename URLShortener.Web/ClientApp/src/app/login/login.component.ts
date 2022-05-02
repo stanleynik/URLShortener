@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { AuthProviderService } from '../core/services/auth-provider.service';
 import { TokenStorageService } from '../core/services/token-storage.service';
  
@@ -9,7 +10,7 @@ import { TokenStorageService } from '../core/services/token-storage.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
 
   form: FormGroup = new FormGroup({
     username: new FormControl(''),
@@ -20,11 +21,12 @@ export class LoginComponent implements OnInit {
   errorMessage = '';
   roles: string[] = [];
   submitted = false;
+  sub!: Subscription;
 
   constructor(private fb: FormBuilder, private authService: AuthProviderService, private tokenStorage: TokenStorageService, private router: Router) {
    
   }
- 
+
   ngOnInit(): void {
   
     this.form = this.fb.group({
@@ -48,7 +50,7 @@ export class LoginComponent implements OnInit {
     }
     const val = this.form.value;
     this.submitted = true;
-    this.authService.login(val.username, val.password).subscribe(
+    this.sub = this.authService.login(val.username, val.password).subscribe(
       data => {
         this.tokenStorage.saveToken(data.token);
         this.tokenStorage.saveUser(data.user);
@@ -62,6 +64,11 @@ export class LoginComponent implements OnInit {
         this.isLoginFailed = true;
       }
     );
+  }
+
+  ngOnDestroy(): void {
+    if (this.sub)
+      this.sub.unsubscribe();
   }
 
  

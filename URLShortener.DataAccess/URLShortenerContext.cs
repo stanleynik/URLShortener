@@ -20,5 +20,23 @@ namespace URLShortener.DataAccess
         public DbSet<URL> URL { get; set; }
         public DbSet<SessionToken> SessionToken { get; set; }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            // Default user
+            modelBuilder.Entity<User>()
+            .HasData(
+                new User
+                {
+                    UserID = 1,
+                    Username = "admin",
+                    Password = "admin",
+                    CreationDate = DateTime.Now
+                }
+                );
+
+        }
+
     }
 }

@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { UrlShortenerService } from '../core/services/url-shortener.service';
 
 @Component({
@@ -7,13 +8,14 @@ import { UrlShortenerService } from '../core/services/url-shortener.service';
   templateUrl: './url-shortener.component.html',
   styleUrls: ['./url-shortener.component.css']
 })
-export class UrlShortenerComponent implements OnInit {
+export class UrlShortenerComponent implements OnInit, OnDestroy {
 
   short_url: string;
   form: FormGroup = new FormGroup({
     url: new FormControl('')
   });
   submitted = false;
+  sub!: Subscription;
 
   constructor(private fb: FormBuilder, private urlShortenerService:UrlShortenerService) {
     
@@ -49,12 +51,18 @@ export class UrlShortenerComponent implements OnInit {
       return;
     }
 
-    this.urlShortenerService.addURL(this.form.value.url).subscribe({
+    this.sub = this.urlShortenerService.addURL(this.form.value.url).subscribe({
       next: result => {
         this.short_url = result;
       },
       error: err => alert(err.message)
     });
+
+  }
+
+  ngOnDestroy(): void {
+    if(this.sub)
+      this.sub.unsubscribe();
 
   }
 }

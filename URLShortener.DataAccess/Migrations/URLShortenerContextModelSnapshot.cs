@@ -22,6 +22,38 @@ namespace URLShortener.DataAccess.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("URLShortener.DataAccess.Models.SessionToken", b =>
+                {
+                    b.Property<int>("SessionTokenId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SessionTokenId"), 1L, 1);
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("RefreshToken")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("UserID")
+                        .HasColumnType("int");
+
+                    b.HasKey("SessionTokenId");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("SessionToken");
+                });
+
             modelBuilder.Entity("URLShortener.DataAccess.Models.URL", b =>
                 {
                     b.Property<int>("UrlID")
@@ -88,6 +120,26 @@ namespace URLShortener.DataAccess.Migrations
                     b.HasKey("UserID");
 
                     b.ToTable("User");
+
+                    b.HasData(
+                        new
+                        {
+                            UserID = 1,
+                            CreationDate = new DateTime(2022, 5, 2, 15, 39, 47, 608, DateTimeKind.Local).AddTicks(2182),
+                            Password = "admin",
+                            Username = "admin"
+                        });
+                });
+
+            modelBuilder.Entity("URLShortener.DataAccess.Models.SessionToken", b =>
+                {
+                    b.HasOne("URLShortener.DataAccess.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }

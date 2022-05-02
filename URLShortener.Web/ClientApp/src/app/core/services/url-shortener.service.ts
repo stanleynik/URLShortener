@@ -66,8 +66,13 @@ export class UrlShortenerService {
   updateVisit(short_code: string): Observable<any> {
     var result: any;
     try {
+      const httpOptions: Object = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json'
+        })
+      };
       var url = "https://localhost:7091/UpdateVisits/" + short_code;
-      result = this.http.post(url, null);
+      result = this.http.post(url, httpOptions);
     } catch (e) {
       
     }
